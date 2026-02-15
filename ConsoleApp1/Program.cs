@@ -8,10 +8,7 @@ using var httpClient = new HttpClient();
 try
 {
     Console.WriteLine("正在请求 Random User API...\n");
-    var response = await httpClient.GetAsync(apiUrl);
-    response.EnsureSuccessStatusCode();
-
-    var json = await response.Content.ReadAsStringAsync();
+    var json = await GetApiResponseAsync(httpClient, apiUrl);
 
     // 格式化输出 JSON（缩进便于阅读）
     using var doc = JsonDocument.Parse(json);
@@ -30,4 +27,11 @@ catch (HttpRequestException ex)
 catch (TaskCanceledException)
 {
     Console.WriteLine("请求超时。");
+}
+
+static async Task<string> GetApiResponseAsync(HttpClient client, string url)
+{
+    var response = await client.GetAsync(url);
+    response.EnsureSuccessStatusCode();
+    return await response.Content.ReadAsStringAsync();
 }
