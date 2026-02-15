@@ -29,6 +29,14 @@ catch (TaskCanceledException)
     Console.WriteLine("请求超时。");
 }
 
+/// <summary>
+/// 向指定 URL 发送 GET 请求并返回响应内容的字符串。
+/// </summary>
+/// <param name="client">用于发送请求的 <see cref="HttpClient"/> 实例。</param>
+/// <param name="url">请求的目标 URL。</param>
+/// <returns>响应体的原始字符串，通常为 JSON。</returns>
+/// <exception cref="HttpRequestException">请求失败或响应状态码表示失败时抛出。</exception>
+/// <exception cref="TaskCanceledException">请求被取消或超时时抛出。</exception>
 static async Task<string> GetApiResponseAsync(HttpClient client, string url)
 {
     var response = await client.GetAsync(url);
