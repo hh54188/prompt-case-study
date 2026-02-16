@@ -1,9 +1,18 @@
-﻿namespace ConsoleApp1;
+using System.Reflection;
 
-public class PostgresClient: IDatabaseClient
+namespace ConsoleApp1;
+
+public class PostgresClient : DatabaseClientBase
 {
-    public async Task Query(string queryStatement)
+    public override async Task Query(string queryStatement)
     {
-        Console.WriteLine("PostgresClient DB Query Completed");
+        LogMethodCalled(MethodBase.GetCurrentMethod()?.Name);
+        // 子类在此处编写实际的 Query 逻辑
+    }
+
+    public override async Task CloseConnection()
+    {
+        LogMethodCalled(MethodBase.GetCurrentMethod()?.Name);
+        // 子类在此处编写实际的 CloseConnection 逻辑
     }
 }
