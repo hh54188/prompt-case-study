@@ -23,6 +23,8 @@ public static class App
             {
                 WriteIndented = true,
             });
+            var c = new PostgresClient();
+            c.Query("");
             await output.WriteLineAsync("API 返回结果：\n");
             await output.WriteLineAsync(formatted);
         }

@@ -3,5 +3,4 @@
 public interface IDatabaseClient
 {
     Task Query(string queryStatement);
-    Task CloseConnection();
 }
