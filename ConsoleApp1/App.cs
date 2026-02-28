@@ -21,7 +21,6 @@ public static class App
             var formatted = JsonSerializer.Serialize(doc, new JsonSerializerOptions
             {
                 WriteIndented = true,
-                Encoder = System.Text.Encodings.Web.JavaScriptEncoder.UnsafeRelaxedJsonEscaping
             });
             await output.WriteLineAsync("API 返回结果：\n");
             await output.WriteLineAsync(formatted);
