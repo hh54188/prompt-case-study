@@ -1,3 +1,4 @@
+using System.Net;
 using System.Text.Json;
 
 namespace ConsoleApp1;
@@ -27,7 +28,7 @@ public static class App
         }
         catch (HttpRequestException ex)
         {
-            await output.WriteLineAsync($"请求失败: {ex.Message}");
+            await output.WriteLineAsync($"请求失败");
         }
         catch (TaskCanceledException)
         {

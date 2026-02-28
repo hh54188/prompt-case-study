@@ -4,7 +4,6 @@ using ConsoleApp1;
 
 const string apiUrl = "https://randomuser.me/api/";
 
-using var httpClient = new HttpClient();
-IApiClient apiClient = new HttpApiClient(httpClient);
+IApiClient apiClient = new HttpApiClient();
 
 await App.RunAsync(apiClient, Console.Out, apiUrl);

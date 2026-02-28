@@ -36,7 +36,55 @@ public class ProgramTests
         await App.RunAsync(mockApiClient.Object, output, "https://example.com/api");
 
         var text = output.ToString();
-        Assert.Contains("请求失败: Connection refused", text);
+        Assert.Contains("请求失败", text);
+    }
+
+    [Fact]
+    public async Task RunAsync_WhenApiThrowsBadRequest_Writes400Message()
+    {
+        var mockApiClient = new Mock<IApiClient>();
+        mockApiClient
+            .Setup(m => m.GetApiResponseAsync(It.IsAny<string>()))
+            .ThrowsAsync(new HttpRequestException("Request failed", 
+                null, HttpStatusCode.BadRequest));
+
+        await using var output = new StringWriter();
+        await App.RunAsync(mockApiClient.Object, output, "https://example.com/api");
+
+        var text = output.ToString();
+        Assert.Contains("请求失败", text);
+    }
+
+    [Fact]
+    public async Task RunAsync_WhenApiThrowsNotFound_WritesRequestFailedMessage()
+    {
+        var mockApiClient = new Mock<IApiClient>();
+        mockApiClient
+            .Setup(m => m.GetApiResponseAsync(It.IsAny<string>()))
+            .ThrowsAsync(new HttpRequestException(
+                "Request failed", null, HttpStatusCode.NotFound));
+
+        await using var output = new StringWriter();
+        await App.RunAsync(mockApiClient.Object, output, "https://example.com/api");
+
+        var text = output.ToString();
+        Assert.Contains("请求失败", text);
+    }
+
+    [Fact]
+    public async Task RunAsync_WhenApiThrowsInternalServerError_WritesRequestFailedMessage()
+    {
+        var mockApiClient = new Mock<IApiClient>();
+        mockApiClient
+            .Setup(m => m.GetApiResponseAsync(It.IsAny<string>()))
+            .ThrowsAsync(new HttpRequestException("Request failed", 
+                null, HttpStatusCode.InternalServerError));
+
+        await using var output = new StringWriter();
+        await App.RunAsync(mockApiClient.Object, output, "https://example.com/api");
+
+        var text = output.ToString();
+        Assert.Contains("请求失败", text);
     }
 
     [Fact]
